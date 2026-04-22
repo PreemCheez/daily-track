@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f7f5ef" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Daily Track" />
+    <title>Daily Track</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="todayLabel">Today</p>
+          <h1>Daily Track</h1>
+        </div>
+        <button class="icon-button" id="resetToday" type="button" aria-label="Clear today's tasks" title="Clear today">
+          <span aria-hidden="true">&#8634;</span>
+        </button>
+      </header>
+
+      <section class="summary" aria-labelledby="summaryTitle">
+        <div>
+          <h2 id="summaryTitle">Today</h2>
+          <p id="dailyStatus">0 of 3 done</p>
+        </div>
+        <div class="ring" aria-hidden="true">
+          <span id="dailyPercent">0%</span>
+        </div>
+      </section>
+
+      <section class="task-list" aria-label="Daily categories">
+        <label class="task-card task-bible">
+          <input type="checkbox" data-category="Bible" />
+          <span class="checkmark" aria-hidden="true"></span>
+          <span>
+            <strong>Bible</strong>
+            <small>Daily study or reading</small>
+          </span>
+        </label>
+
+        <label class="task-card task-emt">
+          <input type="checkbox" data-category="EMT" />
+          <span class="checkmark" aria-hidden="true"></span>
+          <span>
+            <strong>EMT</strong>
+            <small>Training, review, or practice</small>
+          </span>
+        </label>
+
+        <label class="task-card task-writing">
+          <input type="checkbox" data-category="Writing" />
+          <span class="checkmark" aria-hidden="true"></span>
+          <span>
+            <strong>Writing</strong>
+            <small>Drafting, editing, or notes</small>
+          </span>
+        </label>
+      </section>
+
+      <section class="focus-panel" aria-labelledby="focusTitle">
+        <p class="eyebrow">Daily Focus</p>
+        <h2 id="focusTitle">Today</h2>
+        <p id="focusName">Focus loading</p>
+        <strong class="challenge-status" id="challengeStatus">Challenge open</strong>
+        <label class="focus-task">
+          <input type="checkbox" id="focusDone" />
+          <span class="checkmark" aria-hidden="true"></span>
+          <span id="focusTask">Task loading</span>
+        </label>
+      </section>
+
+      <section class="weekly" aria-labelledby="weeklyTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="weeklyTitle">This Week</h2>
+            <p id="weekRange">Monday-Sunday</p>
+          </div>
+          <strong id="weeklyStatus">0/21</strong>
+        </div>
+        <div class="progress-track" aria-label="Weekly completion">
+          <span id="weeklyBar"></span>
+        </div>
+        <div class="week-grid" id="weekGrid" aria-label="Week by day"></div>
+      </section>
+
+      <section class="history" aria-labelledby="historyTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="historyTitle">Saved Weeks</h2>
+            <p>Stored on this device</p>
+          </div>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </section>
+
+      <section class="install-note" aria-label="Install instructions">
+        <p>On iPhone, use Share then Add to Home Screen.</p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
