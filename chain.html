@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f7f5ef" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Daily Chain" />
+    <title>Daily Chain</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell chain-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="chainTodayLabel">Today</p>
+          <h1>Don't Break the Chain</h1>
+        </div>
+        <div class="topbar-actions">
+          <a class="icon-link" href="index.html" aria-label="Open dashboard" title="Dashboard">&#8592;</a>
+        </div>
+      </header>
+
+      <section class="chain-hero" aria-labelledby="chainHeroTitle">
+        <div>
+          <p class="eyebrow">1% Rule</p>
+          <h2 id="chainHeroTitle">Keep the line moving</h2>
+          <p class="chain-message" id="chainMessage">Don't break the chain.</p>
+        </div>
+        <div class="chain-month-gain">
+          <strong id="monthGain">0%</strong>
+          <span>better since month start</span>
+        </div>
+      </section>
+
+      <section class="chain-stats" aria-label="Streak stats">
+        <article class="stat-card">
+          <span>Current streak</span>
+          <strong id="currentStreak">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Longest streak</span>
+          <strong id="longestStreak">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>30 day completion</span>
+          <strong id="completionRate">0%</strong>
+        </article>
+      </section>
+
+      <section class="chain-today" aria-labelledby="chainTodayTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="chainTodayTitle">Today's Chain Status</h2>
+            <p id="chainTodayStatus">Complete all three tasks to extend the chain.</p>
+          </div>
+        </div>
+        <label class="skip-toggle">
+          <input type="checkbox" id="skipToday" />
+          <span class="checkmark" aria-hidden="true"></span>
+          <span>Mark today as an optional skip</span>
+        </label>
+      </section>
+
+      <section class="chain-legend" aria-label="Chain legend">
+        <span><i class="legend-box level-missed"></i>Missed</span>
+        <span><i class="legend-box level-complete"></i>Completed</span>
+        <span><i class="legend-box level-bonus"></i>Completed + bonus</span>
+        <span><i class="legend-box level-skip"></i>Skipped</span>
+      </section>
+
+      <section class="chain-grid-panel" aria-labelledby="chainGridTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="chainGridTitle">Last 90 Days</h2>
+            <p>Tap a missed day to mark or clear an optional skip.</p>
+          </div>
+        </div>
+        <div class="chain-grid-wrap">
+          <div class="chain-grid" id="chainGrid"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="chain.js"></script>
+  </body>
+</html>

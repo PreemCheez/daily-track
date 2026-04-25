@@ -1,7 +1,7 @@
 {
   "name": "Daily Track",
   "short_name": "Daily Track",
-  "description": "A local dashboard for Bible, EMT, and Writing progress.",
+  "description": "A local dashboard for Bible, EMT, Writing, and chain tracking.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f7f5ef",
