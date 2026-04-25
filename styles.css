@@ -473,6 +473,13 @@ h2 {
   color: var(--muted);
 }
 
+.chain-month-gain small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 .chain-stats {
   display: grid;
   gap: 10px;

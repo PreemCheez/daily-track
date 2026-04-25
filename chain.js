@@ -2,6 +2,8 @@ const categories = ["Bible", "EMT", "Writing"];
 const chainTodayLabel = document.querySelector("#chainTodayLabel");
 const chainMessage = document.querySelector("#chainMessage");
 const monthGain = document.querySelector("#monthGain");
+const monthGainMeta = document.querySelector("#monthGainMeta");
+const monthGainFormula = document.querySelector("#monthGainFormula");
 const currentStreakEl = document.querySelector("#currentStreak");
 const longestStreakEl = document.querySelector("#longestStreak");
 const completionRateEl = document.querySelector("#completionRate");
@@ -40,13 +42,15 @@ function render() {
   const currentStreak = getCurrentStreak(today);
   const longestStreak = getLongestStreak(days);
   const completionRate = getCompletionRate(today, 30);
-  const monthImprovement = getMonthImprovement(today);
+  const monthStats = getMonthImprovement(today);
   const todayLevel = getDayLevel(todayKey);
 
   currentStreakEl.textContent = `${currentStreak}`;
   longestStreakEl.textContent = `${longestStreak}`;
   completionRateEl.textContent = `${completionRate}%`;
-  monthGain.textContent = `${monthImprovement}%`;
+  monthGain.textContent = `${monthStats.percent.toFixed(2)}%`;
+  monthGainMeta.textContent = `${monthStats.completedDays} completed 1% day${monthStats.completedDays === 1 ? "" : "s"}`;
+  monthGainFormula.textContent = `1.01^${monthStats.completedDays} = ${monthStats.multiplier.toFixed(4)}x`;
   chainMessage.textContent = currentStreak > 0 ? `${currentStreak}-day streak` : "Don't break the chain";
   chainTodayStatus.textContent = getTodayStatusText(todayLevel);
 }
@@ -82,10 +86,7 @@ function getTodayStatusText(level) {
 
 function getCompletionRate(date, lookbackDays) {
   const days = getTrailingDays(date, lookbackDays);
-  const completed = days.filter((day) => {
-    const level = getDayLevel(toDateKey(day));
-    return level === "level-complete" || level === "level-bonus";
-  }).length;
+  const completed = days.filter((day) => isOnePercentDay(toDateKey(day))).length;
   return Math.round((completed / days.length) * 100);
 }
 
@@ -113,7 +114,7 @@ function getLongestStreak(days) {
 
   days.forEach((date) => {
     const level = getDayLevel(toDateKey(date));
-    if (level === "level-complete" || level === "level-bonus") {
+    if (isOnePercentDay(toDateKey(date))) {
       running += 1;
       longest = Math.max(longest, running);
     } else if (level !== "level-skip") {
@@ -127,12 +128,13 @@ function getLongestStreak(days) {
 function getMonthImprovement(date) {
   const start = new Date(date.getFullYear(), date.getMonth(), 1);
   const days = getTrailingDays(date, differenceInDays(start, date) + 1);
-  const completedDays = days.filter((day) => {
-    const level = getDayLevel(toDateKey(day));
-    return level === "level-complete" || level === "level-bonus";
-  }).length;
+  const completedDays = days.filter((day) => isOnePercentDay(toDateKey(day))).length;
   const multiplier = Math.pow(1.01, completedDays);
-  return Math.round((multiplier - 1) * 100);
+  return {
+    completedDays,
+    multiplier,
+    percent: (multiplier - 1) * 100,
+  };
 }
 
 function getTrailingDays(date, totalDays) {
@@ -153,6 +155,11 @@ function getDayLevel(dateKey) {
   if (taskCount === categories.length && focusDone) return "level-bonus";
   if (taskCount === categories.length) return "level-complete";
   return "level-missed";
+}
+
+function isOnePercentDay(dateKey) {
+  const level = getDayLevel(dateKey);
+  return level === "level-complete" || level === "level-bonus";
 }
 
 function toggleSkipForDay(dateKey) {
