@@ -47,7 +47,7 @@ function render() {
   longestStreakEl.textContent = `${longestStreak}`;
   completionRateEl.textContent = `${completionRate}%`;
   monthGain.textContent = `${monthImprovement}%`;
-  chainMessage.textContent = currentStreak > 0 ? `🔥 ${currentStreak}-day streak` : "Don't break the chain";
+  chainMessage.textContent = currentStreak > 0 ? `${currentStreak}-day streak` : "Don't break the chain";
   chainTodayStatus.textContent = getTodayStatusText(todayLevel);
 }
 
@@ -126,8 +126,12 @@ function getLongestStreak(days) {
 
 function getMonthImprovement(date) {
   const start = new Date(date.getFullYear(), date.getMonth(), 1);
-  const elapsed = Math.max(0, differenceInDays(start, date));
-  const multiplier = Math.pow(1.01, elapsed);
+  const days = getTrailingDays(date, differenceInDays(start, date) + 1);
+  const completedDays = days.filter((day) => {
+    const level = getDayLevel(toDateKey(day));
+    return level === "level-complete" || level === "level-bonus";
+  }).length;
+  const multiplier = Math.pow(1.01, completedDays);
   return Math.round((multiplier - 1) * 100);
 }
 
