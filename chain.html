@@ -30,10 +30,11 @@
           <p class="eyebrow">1% Rule</p>
           <h2 id="chainHeroTitle">Keep the line moving</h2>
           <p class="chain-message" id="chainMessage">Don't break the chain.</p>
+          <small class="chain-month-label" id="chainMonthLabel">This month</small>
         </div>
         <div class="chain-month-gain">
           <strong id="monthGain">0.00%</strong>
-          <span>better from completed 1% days this month</span>
+          <span>better from full core-task days this month</span>
           <small id="monthGainMeta">0 completed 1% days</small>
           <small id="monthGainFormula">1.01^0 = 1.0000x</small>
         </div>
@@ -78,12 +79,46 @@
       <section class="chain-grid-panel" aria-labelledby="chainGridTitle">
         <div class="section-heading">
           <div>
-            <h2 id="chainGridTitle">Last 90 Days</h2>
-            <p>Tap a missed day to mark or clear an optional skip.</p>
+            <h2 id="chainGridTitle">Monthly Growth Chains</h2>
+            <p id="chainGridSubtitle">This month only. Tap a missed day in the overall chain to mark or clear an optional skip.</p>
           </div>
         </div>
-        <div class="chain-grid-wrap">
-          <div class="chain-grid" id="chainGrid"></div>
+        <div class="chain-grid-wrap chain-grid-stack">
+          <article class="habit-panel">
+            <div class="habit-copy">
+              <strong>Overall chain</strong>
+              <span id="overallHabitMeta">0 completed days</span>
+            </div>
+            <div class="chain-grid month-grid" id="chainGrid"></div>
+          </article>
+          <article class="habit-panel">
+            <div class="habit-copy">
+              <strong>Follower of Christ</strong>
+              <span id="bibleGain">0.00% better</span>
+            </div>
+            <div class="chain-grid month-grid" id="bibleGrid"></div>
+          </article>
+          <article class="habit-panel">
+            <div class="habit-copy">
+              <strong>EMT</strong>
+              <span id="emtGain">0.00% better</span>
+            </div>
+            <div class="chain-grid month-grid" id="emtGrid"></div>
+          </article>
+          <article class="habit-panel">
+            <div class="habit-copy">
+              <strong>Writer</strong>
+              <span id="writingGain">0.00% better</span>
+            </div>
+            <div class="chain-grid month-grid" id="writingGrid"></div>
+          </article>
+          <article class="habit-panel">
+            <div class="habit-copy">
+              <strong>Going the extra mile</strong>
+              <span id="bonusGain">0.00% better</span>
+            </div>
+            <div class="chain-grid month-grid" id="bonusGrid"></div>
+          </article>
         </div>
       </section>
     </main>

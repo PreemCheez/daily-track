@@ -456,6 +456,13 @@ h2 {
   font-weight: 800;
 }
 
+.chain-month-label {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
 .chain-month-gain {
   text-align: right;
 }
@@ -554,6 +561,31 @@ h2 {
   padding-bottom: 4px;
 }
 
+.chain-grid-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.habit-panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfaf6;
+}
+
+.habit-copy strong,
+.habit-copy span {
+  display: block;
+}
+
+.habit-copy span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
 .chain-grid {
   display: grid;
   grid-template-columns: repeat(13, 16px);
@@ -561,6 +593,10 @@ h2 {
   grid-auto-flow: column;
   gap: 5px;
   width: fit-content;
+}
+
+.month-grid {
+  grid-template-columns: repeat(7, 16px);
 }
 
 .chain-cell {
@@ -600,6 +636,11 @@ h2 {
 
 .level-skip {
   background: #b89a6a;
+}
+
+.level-future {
+  background: #f6f2ea;
+  border-style: dashed;
 }
 
 @media (min-width: 680px) {
