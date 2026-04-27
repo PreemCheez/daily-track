@@ -7,6 +7,7 @@ const monthGainMeta = document.querySelector("#monthGainMeta");
 const monthGainFormula = document.querySelector("#monthGainFormula");
 const currentStreakEl = document.querySelector("#currentStreak");
 const longestStreakEl = document.querySelector("#longestStreak");
+const masterRateLabel = document.querySelector("#masterRateLabel");
 const completionRateEl = document.querySelector("#completionRate");
 const chainTodayStatus = document.querySelector("#chainTodayStatus");
 const chainGrid = document.querySelector("#chainGrid");
@@ -24,6 +25,8 @@ const journalGain = document.querySelector("#journalGain");
 const relationshipGain = document.querySelector("#relationshipGain");
 const bonusGain = document.querySelector("#bonusGain");
 const skipToday = document.querySelector("#skipToday");
+const copyMonthSummary = document.querySelector("#copyMonthSummary");
+const monthSummaryOutput = document.querySelector("#monthSummaryOutput");
 
 const dayFormatter = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "short", day: "numeric" });
 const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" });
@@ -39,6 +42,19 @@ skipToday.addEventListener("change", () => {
   state.skipDays[todayKey] = skipToday.checked;
   saveState();
   render();
+});
+
+copyMonthSummary.addEventListener("click", async () => {
+  if (monthSummaryOutput.value === "Not available") {
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(monthSummaryOutput.value);
+    copyMonthSummary.title = "Copied";
+  } catch {
+    copyMonthSummary.title = "Copy failed";
+  }
 });
 
 render();
@@ -64,6 +80,7 @@ function render() {
   const longestStreak = getLongestStreak(monthDays);
   const completionRate = getCompletionRate(today, 30);
   const monthStats = getMonthImprovement(today);
+  const monthMasterRate = getMonthMasterRate(today);
   const todayLevel = getDayLevel(todayKey);
   const bibleStats = getCategoryMonthImprovement(today, "Bible");
   const emtStats = getCategoryMonthImprovement(today, "EMT");
@@ -71,15 +88,17 @@ function render() {
   const journalStats = getCategoryMonthImprovement(today, "Journal");
   const relationshipStats = getCategoryMonthImprovement(today, "Relationship");
   const bonusStats = getCategoryMonthImprovement(today, "bonus");
+  const previousMonthSummary = getPreviousMonthSummary(today);
 
   chainMonthLabel.textContent = monthFormatter.format(today);
   currentStreakEl.textContent = `${currentStreak}`;
   longestStreakEl.textContent = `${longestStreak}`;
-  completionRateEl.textContent = `${completionRate}%`;
+  masterRateLabel.textContent = "Master chain rate";
+  completionRateEl.textContent = `${monthMasterRate}%`;
   monthGain.textContent = `${monthStats.percent.toFixed(2)}%`;
   monthGainMeta.textContent = `${monthStats.completedDays} completed 1% day${monthStats.completedDays === 1 ? "" : "s"}`;
   monthGainFormula.textContent = `1.01^${monthStats.completedDays} = ${monthStats.multiplier.toFixed(4)}x`;
-  overallHabitMeta.textContent = `${monthStats.completedDays}/${monthDays.length} full core-task days`;
+  overallHabitMeta.textContent = `${monthStats.completedDays}/${monthStats.totalDays} full core-task days • ${monthMasterRate}% master chain`;
   bibleGain.textContent = `${bibleStats.percent.toFixed(2)}% better`;
   emtGain.textContent = `${emtStats.percent.toFixed(2)}% better`;
   writingGain.textContent = `${writingStats.percent.toFixed(2)}% better`;
@@ -88,6 +107,9 @@ function render() {
   bonusGain.textContent = `${bonusStats.percent.toFixed(2)}% better`;
   chainMessage.textContent = currentStreak > 0 ? `${currentStreak}-day streak` : "Don't break the chain";
   chainTodayStatus.textContent = getTodayStatusText(todayLevel);
+  monthSummaryOutput.value = previousMonthSummary || "Not available";
+  copyMonthSummary.disabled = !previousMonthSummary;
+  copyMonthSummary.title = previousMonthSummary ? "Copy summary" : "No summary available";
 }
 
 function renderGrid(statuses) {
@@ -184,6 +206,7 @@ function getMonthImprovement(date) {
   const multiplier = Math.pow(1.01, completedDays);
   return {
     completedDays,
+    totalDays: days.length,
     multiplier,
     percent: (multiplier - 1) * 100,
   };
@@ -195,6 +218,76 @@ function getCategoryMonthImprovement(date, category) {
   const multiplier = Math.pow(1.01, completedDays);
   return {
     completedDays,
+    multiplier,
+    percent: (multiplier - 1) * 100,
+  };
+}
+
+function getMonthMasterRate(date) {
+  const stats = getMonthImprovement(date);
+  return Math.round((stats.completedDays / stats.totalDays) * 100);
+}
+
+function getPreviousMonthSummary(date) {
+  const previousMonthDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+  const days = getMonthDays(previousMonthDate);
+  const monthLabel = monthFormatter.format(previousMonthDate);
+  const available = hasMonthData(days);
+
+  if (!available) {
+    return "";
+  }
+
+  const overall = getMonthImprovementForDays(days);
+  const bible = getCategoryMonthImprovementForDays(days, "Bible");
+  const emt = getCategoryMonthImprovementForDays(days, "EMT");
+  const writing = getCategoryMonthImprovementForDays(days, "Writing");
+  const journal = getCategoryMonthImprovementForDays(days, "Journal");
+  const relationship = getCategoryMonthImprovementForDays(days, "Relationship");
+  const bonus = getCategoryMonthImprovementForDays(days, "bonus");
+  const masterRate = Math.round((overall.completedDays / overall.totalDays) * 100);
+
+  return [
+    `${monthLabel} Summary`,
+    `Master chain rate: ${masterRate}% (${overall.completedDays}/${overall.totalDays} full core-task days)`,
+    `Overall 1% growth: ${overall.percent.toFixed(2)}%`,
+    `Follower of Christ: ${bible.percent.toFixed(2)}%`,
+    `EMT: ${emt.percent.toFixed(2)}%`,
+    `Writer: ${writing.percent.toFixed(2)}%`,
+    `Journaler: ${journal.percent.toFixed(2)}%`,
+    `Relationship builder: ${relationship.percent.toFixed(2)}%`,
+    `Going the extra mile: ${bonus.percent.toFixed(2)}%`,
+  ].join("\n");
+}
+
+function hasMonthData(days) {
+  return days.some((day) => {
+    const key = toDateKey(day);
+    return (
+      Object.values(state.days?.[key] || {}).some(Boolean) ||
+      Boolean(state.focusDays?.[key]) ||
+      Boolean(state.skipDays?.[key])
+    );
+  });
+}
+
+function getMonthImprovementForDays(days) {
+  const completedDays = days.filter((day) => isOnePercentDay(toDateKey(day))).length;
+  const multiplier = Math.pow(1.01, completedDays);
+  return {
+    completedDays,
+    totalDays: days.length,
+    multiplier,
+    percent: (multiplier - 1) * 100,
+  };
+}
+
+function getCategoryMonthImprovementForDays(days, category) {
+  const completedDays = days.filter((day) => isCategorySuccess(toDateKey(day), category)).length;
+  const multiplier = Math.pow(1.01, completedDays);
+  return {
+    completedDays,
+    totalDays: days.length,
     multiplier,
     percent: (multiplier - 1) * 100,
   };

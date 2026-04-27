@@ -443,6 +443,7 @@ h2 {
 .chain-hero,
 .chain-today,
 .chain-grid-panel,
+.chain-notes,
 .chain-legend,
 .stat-card {
   background: var(--panel);
@@ -515,8 +516,25 @@ h2 {
 }
 
 .chain-today,
-.chain-grid-panel {
+.chain-grid-panel,
+.chain-notes {
   padding: 18px;
+}
+
+.chain-notes {
+  margin-top: 14px;
+}
+
+.summary-output {
+  width: 100%;
+  min-height: 168px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfaf6;
+  color: var(--ink);
+  resize: vertical;
 }
 
 .skip-toggle {

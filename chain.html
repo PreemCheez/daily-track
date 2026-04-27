@@ -50,7 +50,7 @@
           <strong id="longestStreak">0</strong>
         </article>
         <article class="stat-card">
-          <span>30 day completion</span>
+          <span id="masterRateLabel">Master chain rate</span>
           <strong id="completionRate">0%</strong>
         </article>
       </section>
@@ -134,6 +134,19 @@
             <div class="chain-grid month-grid" id="bonusGrid"></div>
           </article>
         </div>
+      </section>
+
+      <section class="chain-notes" aria-labelledby="chainNotesTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="chainNotesTitle">Previous Month Summary</h2>
+            <p>Copy this into Notion or anywhere else.</p>
+          </div>
+          <button class="icon-button" id="copyMonthSummary" type="button" aria-label="Copy previous month summary" title="Copy summary">
+            <span aria-hidden="true">Copy</span>
+          </button>
+        </div>
+        <textarea class="summary-output" id="monthSummaryOutput" readonly>Not available</textarea>
       </section>
     </main>
 
