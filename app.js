@@ -1,4 +1,4 @@
-const categories = ["Bible", "EMT", "Writing"];
+const categories = ["Bible", "EMT", "Writing", "Journal", "Relationship"];
 const dailyFocuses = [
   {
     focus: "Bible + Community + Church",

@@ -1,4 +1,4 @@
-const categories = ["Bible", "EMT", "Writing"];
+const categories = ["Bible", "EMT", "Writing", "Journal", "Relationship"];
 const chainTodayLabel = document.querySelector("#chainTodayLabel");
 const chainMessage = document.querySelector("#chainMessage");
 const chainMonthLabel = document.querySelector("#chainMonthLabel");
@@ -14,10 +14,14 @@ const overallHabitMeta = document.querySelector("#overallHabitMeta");
 const bibleGrid = document.querySelector("#bibleGrid");
 const emtGrid = document.querySelector("#emtGrid");
 const writingGrid = document.querySelector("#writingGrid");
+const journalGrid = document.querySelector("#journalGrid");
+const relationshipGrid = document.querySelector("#relationshipGrid");
 const bonusGrid = document.querySelector("#bonusGrid");
 const bibleGain = document.querySelector("#bibleGain");
 const emtGain = document.querySelector("#emtGain");
 const writingGain = document.querySelector("#writingGain");
+const journalGain = document.querySelector("#journalGain");
+const relationshipGain = document.querySelector("#relationshipGain");
 const bonusGain = document.querySelector("#bonusGain");
 const skipToday = document.querySelector("#skipToday");
 
@@ -52,6 +56,8 @@ function render() {
   renderCategoryGrid(bibleGrid, monthDays, "Bible");
   renderCategoryGrid(emtGrid, monthDays, "EMT");
   renderCategoryGrid(writingGrid, monthDays, "Writing");
+  renderCategoryGrid(journalGrid, monthDays, "Journal");
+  renderCategoryGrid(relationshipGrid, monthDays, "Relationship");
   renderCategoryGrid(bonusGrid, monthDays, "bonus");
 
   const currentStreak = getCurrentStreak(today);
@@ -62,6 +68,8 @@ function render() {
   const bibleStats = getCategoryMonthImprovement(today, "Bible");
   const emtStats = getCategoryMonthImprovement(today, "EMT");
   const writingStats = getCategoryMonthImprovement(today, "Writing");
+  const journalStats = getCategoryMonthImprovement(today, "Journal");
+  const relationshipStats = getCategoryMonthImprovement(today, "Relationship");
   const bonusStats = getCategoryMonthImprovement(today, "bonus");
 
   chainMonthLabel.textContent = monthFormatter.format(today);
@@ -75,6 +83,8 @@ function render() {
   bibleGain.textContent = `${bibleStats.percent.toFixed(2)}% better`;
   emtGain.textContent = `${emtStats.percent.toFixed(2)}% better`;
   writingGain.textContent = `${writingStats.percent.toFixed(2)}% better`;
+  journalGain.textContent = `${journalStats.percent.toFixed(2)}% better`;
+  relationshipGain.textContent = `${relationshipStats.percent.toFixed(2)}% better`;
   bonusGain.textContent = `${bonusStats.percent.toFixed(2)}% better`;
   chainMessage.textContent = currentStreak > 0 ? `${currentStreak}-day streak` : "Don't break the chain";
   chainTodayStatus.textContent = getTodayStatusText(todayLevel);
