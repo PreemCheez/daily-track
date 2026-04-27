@@ -1,4 +1,4 @@
-const categories = ["Bible", "EMT", "Writing", "Journal", "Relationship"];
+const categories = ["Bible", "EMT", "Writing", "Journal", "Relationship", "Health"];
 const chainTodayLabel = document.querySelector("#chainTodayLabel");
 const chainMessage = document.querySelector("#chainMessage");
 const chainMonthLabel = document.querySelector("#chainMonthLabel");
@@ -17,12 +17,14 @@ const emtGrid = document.querySelector("#emtGrid");
 const writingGrid = document.querySelector("#writingGrid");
 const journalGrid = document.querySelector("#journalGrid");
 const relationshipGrid = document.querySelector("#relationshipGrid");
+const healthGrid = document.querySelector("#healthGrid");
 const bonusGrid = document.querySelector("#bonusGrid");
 const bibleGain = document.querySelector("#bibleGain");
 const emtGain = document.querySelector("#emtGain");
 const writingGain = document.querySelector("#writingGain");
 const journalGain = document.querySelector("#journalGain");
 const relationshipGain = document.querySelector("#relationshipGain");
+const healthGain = document.querySelector("#healthGain");
 const bonusGain = document.querySelector("#bonusGain");
 const skipToday = document.querySelector("#skipToday");
 const copyMonthSummary = document.querySelector("#copyMonthSummary");
@@ -74,6 +76,7 @@ function render() {
   renderCategoryGrid(writingGrid, monthDays, "Writing");
   renderCategoryGrid(journalGrid, monthDays, "Journal");
   renderCategoryGrid(relationshipGrid, monthDays, "Relationship");
+  renderCategoryGrid(healthGrid, monthDays, "Health");
   renderCategoryGrid(bonusGrid, monthDays, "bonus");
 
   const currentStreak = getCurrentStreak(today);
@@ -87,6 +90,7 @@ function render() {
   const writingStats = getCategoryMonthImprovement(today, "Writing");
   const journalStats = getCategoryMonthImprovement(today, "Journal");
   const relationshipStats = getCategoryMonthImprovement(today, "Relationship");
+  const healthStats = getCategoryMonthImprovement(today, "Health");
   const bonusStats = getCategoryMonthImprovement(today, "bonus");
   const previousMonthSummary = getPreviousMonthSummary(today);
 
@@ -104,6 +108,7 @@ function render() {
   writingGain.textContent = `${writingStats.percent.toFixed(2)}% better`;
   journalGain.textContent = `${journalStats.percent.toFixed(2)}% better`;
   relationshipGain.textContent = `${relationshipStats.percent.toFixed(2)}% better`;
+  healthGain.textContent = `${healthStats.percent.toFixed(2)}% better`;
   bonusGain.textContent = `${bonusStats.percent.toFixed(2)}% better`;
   chainMessage.textContent = currentStreak > 0 ? `${currentStreak}-day streak` : "Don't break the chain";
   chainTodayStatus.textContent = getTodayStatusText(todayLevel);
@@ -244,6 +249,7 @@ function getPreviousMonthSummary(date) {
   const writing = getCategoryMonthImprovementForDays(days, "Writing");
   const journal = getCategoryMonthImprovementForDays(days, "Journal");
   const relationship = getCategoryMonthImprovementForDays(days, "Relationship");
+  const health = getCategoryMonthImprovementForDays(days, "Health");
   const bonus = getCategoryMonthImprovementForDays(days, "bonus");
   const masterRate = Math.round((overall.completedDays / overall.totalDays) * 100);
 
@@ -256,6 +262,7 @@ function getPreviousMonthSummary(date) {
     `Writer: ${writing.percent.toFixed(2)}%`,
     `Journaler: ${journal.percent.toFixed(2)}%`,
     `Relationship builder: ${relationship.percent.toFixed(2)}%`,
+    `Health: ${health.percent.toFixed(2)}%`,
     `Going the extra mile: ${bonus.percent.toFixed(2)}%`,
   ].join("\n");
 }

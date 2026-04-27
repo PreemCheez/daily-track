@@ -1,4 +1,4 @@
-const categories = ["Bible", "EMT", "Writing", "Journal", "Relationship"];
+const categories = ["Bible", "EMT", "Writing", "Journal", "Relationship", "Health"];
 const dailyFocuses = [
   {
     focus: "Bible + Community + Church",
@@ -161,7 +161,7 @@ function renderHistory() {
       item.innerHTML = `
         <div>
           <strong>${monthDayFormatter.format(week[0])} - ${monthDayFormatter.format(week[6])}</strong>
-          <span>${categoryDone}/21 daily checks</span>
+          <span>${categoryDone}/${week.length * categories.length} daily checks</span>
         </div>
         <div>
           <strong>${challengeDone}/7</strong>
