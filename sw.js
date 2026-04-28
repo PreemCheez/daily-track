@@ -1,5 +1,14 @@
-const CACHE_NAME = "daily-track-v5";
-const ASSETS = ["./", "./index.html", "./chain.html", "./styles.css", "./app.js", "./chain.js", "./manifest.webmanifest", "./icon.svg"];
+const CACHE_NAME = "daily-track-v6";
+const ASSETS = [
+  "./",
+  "./index.html",
+  "./chain.html",
+  "./styles.css?v=6",
+  "./app.js?v=6",
+  "./chain.js?v=6",
+  "./manifest.webmanifest?v=6",
+  "./icon.svg",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
